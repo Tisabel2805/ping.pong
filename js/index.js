@@ -12,6 +12,15 @@ var ballRadius = 10;
 var rightPressed = false;
 var leftPressed = false;
 
+var brickRowCount =3;
+var brickColumnCount =5;
+var brickWidth = 75;
+var brickHeight= 20;
+var brickPadding=10;
+var brickOffsetTop=30;
+var brickOffsetLeft=30;
+
+
 //agregar eventos de presionado y soltado de teclas
 document.addEventListener ("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -47,11 +56,28 @@ context.fillStyle = "#0095DD";
 context.fill();
 context.closePath();
 }
+function drawBricks() {
+  for (var row = 0; row <brickRowCount;row++) {
+    for(var column = 0; column < brickColumnCount; column++) {
+    var brickX=(column * (brickWidth + brickPadding))+brickOffsetLeft;
+    var brickY=(row *(brickHeight+brickPadding))+brickOffsetTop;
+
+//bloque
+    context.beginPath();
+   context.rect(brickX, brickY, brickWidth, brickHeight);
+   context.fillStyle = "#0095DD";
+   context.fill();
+   context.closePath();
+
+  }
+ }
+}
+
+
+
 
 // Esta funcion dibuja un circulo
-function drawBall ()
-
- {
+function drawBall (){
   context.beginPath();
 context.arc(x, y, ballRadius, 0, Math.PI*2);
 context.fillStyle = "#0095DD";
@@ -62,14 +88,14 @@ context.closePath();
 function draw () {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-// se llama la funcion de dibijar un circulo
-
-  drawBall();
-
-  // se llama al afuncion de dibujar
+  // de llama a la funcion de dibujar los bloques
+drawBricks()
+  // se llama al afuncion de dibujar la pelotita
   drawBall ()
   // se llama a la funcion de dibujar la paleta
   drawPaddle ()
+
+
 
   // verificar si llego al limite de abajo
   if ( x + dx >  canvas.width - ballRadius || x + dx < ballRadius) {
@@ -98,9 +124,6 @@ function draw () {
   x += dx;
   y += dy;
 
-  }
-
-
-
+}
 
 setInterval (draw,10);
